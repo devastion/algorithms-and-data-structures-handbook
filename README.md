@@ -1,9 +1,13 @@
 # Algorithms and Data Structures Handbook
 
+My personal notes while taking algorithms and data structures knowledge refresh course.
+
 ## Big O Notation
 
-- Describe time complexity and space complexity of algorithms
-- Help us to pick the best solution for the problem performance wise
+- Analyze performance of an algorithm
+- Big O Notation can give us high level understanding of the time or space complexity of an algorithm
+- Big O doesn't care about precision, it's all about general trends (linear?, quadratic?, constant?)
+- The time or space complexity (measured by Big O) depends only on the algorithm, not the hardware used to run the algorithm
 
 ### Simplify Big O Notation (Time Complexity)
 
