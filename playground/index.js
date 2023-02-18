@@ -1,4 +1,4 @@
-const { addUpTo, addUpToOptimized } = require("./big-o-notation/addUpTo");
+const { addUpTo, addUpToOptimized } = require("./addUpTo");
 
 // Log Time
 let time_1, time_2;
