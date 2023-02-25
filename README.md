@@ -7,7 +7,7 @@ My personal notes while taking algorithms and data structures knowledge refresh 
     - [Simplify Big O Notation (Time Complexity)](#simplify-big-o-notation-time-complexity)
     - [Space Complexity](#space-complexity)
     - [Examples](#examples)
-  - [Analyzing performance of Arrays and Objects](#analyzing-performance-of-arrays-and-objects)
+  - [Analyzing Performance of Arrays and Objects](#analyzing-performance-of-arrays-and-objects)
     - [The Big O of Objects](#the-big-o-of-objects)
     - [The Big O of Arrays](#the-big-o-of-arrays)
   - [Problem Solving Approach](#problem-solving-approach)
@@ -16,8 +16,11 @@ My personal notes while taking algorithms and data structures knowledge refresh 
     - [Break it Down](#break-it-down)
     - [Solve or Simplify](#solve-or-simplify)
     - [Look Back and Refactor](#look-back-and-refactor)
-  - [Problem solving patterns](#problem-solving-patterns)
+  - [Problem Solving Patterns](#problem-solving-patterns)
     - [Frequency Counter Pattern](#frequency-counter-pattern)
+    - [Multiple Pointers](#multiple-pointers)
+    - [Sliding Window](#sliding-window)
+    - [Divide and Conquer](#divide-and-conquer)
 
 ## Big O Notation
 
@@ -91,7 +94,7 @@ function double(arr) {
 }
 ```
 
-## Analyzing performance of Arrays and Objects
+## Analyzing Performance of Arrays and Objects
 
 - Understand how objects and arrays work, through lens of Big O
 - Explain why adding elements to the beginning of an array is costly
@@ -247,7 +250,7 @@ function isAlphaNumeric(char) {
 }
 ```
 
-## Problem solving patterns
+## Problem Solving Patterns
 
 - Frequency Counter
 - Multiple Pointers
@@ -310,3 +313,102 @@ function sameOptimized(arr1, arr2) {
   return true;
 }
 ```
+
+### Multiple Pointers
+
+Creating **pointers** or values that correspond to an index or position and move towards the beginning, end or middle based on a certain condition.  
+It is **very** efficient for solving problems with minimal space complexity as well.
+
+```javascript
+/** EXAMPLE
+ * Write a function called sumZero which accepts a sorted array of integers.
+ * The function should find the first pair where the sum is 0.
+ * Return an array that includes both values that sum to zero or undefined if
+ * a pair does not exists.
+ * sumZero([-3,-2,-1,0,1,2,3]) // [-3,3]
+ * sumZero([-2,0,1,3]) // undefined
+ * sumZero([1,2,3]) // undefined
+ */
+
+// ? Time Complexity - O(n^2)
+// ? Space Complexity - O(1)
+function sumZero(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] + arr[j] === 0) {
+        return [arr[i], arr[j]];
+      }
+    }
+  }
+}
+
+// ? Time Complexity - O(n)
+// ? Space Complexity - O(1)
+function sumZeroOptimized(arr) {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left < right) {
+    let sum = arr[left] + arr[right];
+    if (sum === 0) return [arr[left], arr[right]];
+    if (sum > 0) right--;
+    else left++;
+  }
+}
+```
+
+### Sliding Window
+
+This pattern involves creating window which can either be an array or number from one position to another.  
+Depending on a certain condition, the window either increases or closes (and a new window is created).  
+Very useful for keeping track of a subset of data in an array/string etc.
+
+```javascript
+/** EXAMPLE
+ * Write a function called maxSubarraySum which accepts an
+ * array of integers and a number called n. The function
+ * should calculate the maximum sum of n consecutive
+ * elements in the array.
+ * maxSubarraySum([1,2,5,2,8,1,5], 2) // 10
+ * maxSubarraySum([1,2,5,2,8,1,5], 4) // 17
+ * maxSubarraySum([4,2,1,6], 1) // 6
+ * maxSubarraySum([4,2,1,6,2],, 4) // 13
+ * maxSubarraySum([], 4) // null
+ */
+
+// ? Time Complexity - O(n^2)
+function maxSubarraySum(arr, num) {
+  if (num > arr.length) return null;
+  let max = -Infinity;
+  for (let i = 0; i < arr.length - num + 1; i++) {
+    let temp = 0;
+    for (let j = 0; j < num; j++) {
+      temp += arr[i + j];
+    }
+    if (temp > max) {
+      max = temp;
+    }
+  }
+  return max;
+}
+
+// ? Time Complexity - O(n)
+function maxSubarraySumOptimized(arr, num) {
+  let maxSum = 0;
+  let tempSum = 0;
+  if (arr.length < num) return null;
+  for (let i = 0; i < num; i++) {
+    maxSum += arr[i];
+  }
+  tempSum = maxSum;
+  for (let i = num; i < arr.length; i++) {
+    tempSum = tempSum - arr[i - num] + arr[i];
+    maxSum = Math.max(maxSum, tempSum);
+  }
+  return maxSum;
+}
+```
+
+### Divide and Conquer
+
+This pattern involves dividing a data set into smaller chunks and then repeating a process with a subset of data. This pattern can tremendously **decrease time complexity**! It is used in many sorting algorithms. For example quick and merge sort, binary search tree etc.
