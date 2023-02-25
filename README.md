@@ -11,11 +11,13 @@ My personal notes while taking algorithms and data structures knowledge refresh 
     - [The Big O of Objects](#the-big-o-of-objects)
     - [The Big O of Arrays](#the-big-o-of-arrays)
   - [Problem Solving Approach](#problem-solving-approach)
-    - [Understand the problem](#understand-the-problem)
-    - [Concrete examples](#concrete-examples)
-    - [Break it down](#break-it-down)
+    - [Understand the Problem](#understand-the-problem)
+    - [Concrete Examples](#concrete-examples)
+    - [Break it Down](#break-it-down)
     - [Solve or Simplify](#solve-or-simplify)
-    - [Look back and refactor](#look-back-and-refactor)
+    - [Look Back and Refactor](#look-back-and-refactor)
+  - [Problem solving patterns](#problem-solving-patterns)
+    - [Frequency Counter Pattern](#frequency-counter-pattern)
 
 ## Big O Notation
 
@@ -127,7 +129,7 @@ function double(arr) {
    - Solve / Simplify
    - Look back and refactor
 
-### Understand the problem
+### Understand the Problem
 
 1. Can I restate the problem in my own words?
 2. What are the inputs that go into the problem?
@@ -135,7 +137,7 @@ function double(arr) {
 4. Can the outputs be determined from the inputs? In other words, do I have enough information to solve the problem? (You may not be able to answer this question until you set about solving the problem. That's okay, it's still worth considering the question at this early stage.)
 5. How should I label the important pieces of data that are a part of the problem?
 
-### Concrete examples
+### Concrete Examples
 
 1. Start with simple examples
 2. Progress to more complex examples
@@ -157,7 +159,7 @@ charCount("My phone number is 123456");
 charCount();
 ```
 
-### Break it down
+### Break it Down
 
 1. Explicitly write out the steps you need to take.
    - This forces you to think about the code you'll write before you write it, and helps you catch any lingering conceptual issues or misunderstandings before you dive in and have to worry about details (e.g. language syntax) as well.
@@ -208,7 +210,7 @@ function charCount(str) {
 }
 ```
 
-### Look back and refactor
+### Look Back and Refactor
 
 Probably most important step for improving as a developer. Ask yourself these questions:
 
@@ -241,6 +243,70 @@ function isAlphaNumeric(char) {
   ) {
     return false;
   }
+  return true;
+}
+```
+
+## Problem solving patterns
+
+- Frequency Counter
+- Multiple Pointers
+- Sliding Window
+- Divide and Conquer
+- Dynamic Programming
+- Greedy Algorithms
+- Backtracking
+- Many more!
+
+### Frequency Counter Pattern
+
+This patter uses objects or sets to collect values/frequencies of values. This can often avoid the need for nested loops or O(n^2) operatins with arrays / strings.
+
+```javascript
+/** EXAMPLE
+ * Write a function called same, which accepts two arrays.
+ * The function should return true if every value in the array
+ * has it's corresponding value squared in the second array.
+ * The frequency of values must be the same.
+ * same([1,2,3], [4,1,9]) // true
+ * same([1,2,3], [1,9]) // false
+ * same([1,2,3], [4,4,1]) // false (must be same frequency)
+ */
+
+// ? Time Complexity - O(n^2)
+function same(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  for (let i = 0; i < arr1.length; i++) {
+    // ! index of is another loop, so now we have nested loops
+    let correctIndex = arr2.indexOf(arr1[i] ** 2);
+    if (correctIndex === -1) return false;
+    arr2.splice(correctIndex, 1);
+  }
+  return true;
+}
+
+// ? Time Complexity - O(n)
+// ? Two loops are better than two nested loops
+function sameOptimized(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+
+  let frequencyCounter1 = {};
+  let frequencyCounter2 = {};
+
+  for (let val of arr1) {
+    frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
+  }
+
+  for (let val of arr2) {
+    frequencyCounter2[val] = (frequencyCounter2[val] || 0) + 1;
+  }
+
+  for (let key in frequencyCounter1) {
+    if (!(key ** 2 in frequencyCounter2)) return false;
+
+    if (frequencyCounter2[key ** 2] !== frequencyCounter1[key]) return false;
+  }
+
   return true;
 }
 ```
