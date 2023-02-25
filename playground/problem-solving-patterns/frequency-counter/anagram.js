@@ -25,3 +25,35 @@ console.log(validAnagram("aaz", "zza")); // false
 console.log(validAnagram("anagram", "nagaram")); // true
 console.log(validAnagram("awesome", "awesom")); // false
 console.log(validAnagram("qwerty", "yetrqw")); // true
+
+function validAnagramOptimized(first, second) {
+  if (first.length !== second.length) {
+    return false;
+  }
+
+  const lookup = {};
+
+  for (let i = 0; i < first.length; i++) {
+    let letter = first[i];
+    // if letter exists, increment, otherwise set to 1
+    lookup[letter] ? (lookup[letter] += 1) : (lookup[letter] = 1);
+  }
+
+  for (let i = 0; i < second.length; i++) {
+    let letter = second[i];
+    // can't find letter or letter is zero then it's not an anagram
+    if (!lookup[letter]) {
+      return false;
+    } else {
+      lookup[letter] -= 1;
+    }
+  }
+
+  return true;
+}
+
+console.log(validAnagramOptimized(" ", " ")); // true
+console.log(validAnagramOptimized("aaz", "zza")); // false
+console.log(validAnagramOptimized("anagram", "nagaram")); // true
+console.log(validAnagramOptimized("awesome", "awesom")); // false
+console.log(validAnagramOptimized("qwerty", "yetrqw")); // true
