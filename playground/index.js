@@ -1,4 +1,4 @@
-const { addUpTo, addUpToOptimized } = require("./addUpTo");
+const { addUpTo, addUpToOptimized } = require("./utilities/addUpTo");
 
 // Log Time
 let time_1, time_2;
