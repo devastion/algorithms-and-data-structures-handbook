@@ -21,6 +21,9 @@ My personal notes while taking algorithms and data structures knowledge refresh 
     - [Multiple Pointers](#multiple-pointers)
     - [Sliding Window](#sliding-window)
     - [Divide and Conquer](#divide-and-conquer)
+  - [Recursion](#recursion)
+    - [Helper Method Recursion](#helper-method-recursion)
+    - [Pure Recrusion](#pure-recrusion)
 
 ## Big O Notation
 
@@ -444,4 +447,69 @@ function search(array, val) {
 
   return -1;
 }
+```
+
+## Recursion
+
+- Define what recursion is and how it can be used
+- Understand the two essential components of a recursive function
+- Visualize the call stack to better debug and understand recursive functions
+- Use helper method recursion and pure recrusion to solve more difficult problems
+
+What is a recursion? - a **process** (a function in our case) that **calls itself**.  
+Recursions should have **base case** - a condition that tells where the recursion stops. Also **different input** - you want to check on different data.
+
+```javascript
+function countDown(num) {
+  if (num <= 0) {
+    console.log("Done");
+    return;
+  }
+  console.log(num);
+  num--;
+  countDown(num);
+}
+```
+
+**Recursion pitfalls**:
+
+1. No base case.
+2. Forgetting to return or return the wrong thing!
+3. Stack overflow!
+
+### Helper Method Recursion
+
+Recursion is happening inside helper function within a function.
+
+```javascript
+const collectOdds = (nums) => {
+  let result = [];
+
+  function helper(n) {
+    if (n.length === 0) return;
+
+    if (n[0] % 2 !== 0) {
+      result.push(n[0]);
+    }
+
+    helper(n.slice(1));
+  }
+
+  helper(nums);
+  return result;
+};
+```
+
+### Pure Recrusion
+
+```javascript
+const collectOddsPure = (nums) => {
+  let newArr = [];
+  if (nums.length === 0) return newArr;
+
+  if (nums[0] % 2 !== 0) newArr.push(nums[0]);
+
+  newArr = newArr.concat(collectOddsPure(nums.slice(1)));
+  return newArr;
+};
 ```
